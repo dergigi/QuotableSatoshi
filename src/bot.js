@@ -31,9 +31,9 @@ console.log("---------------------------------------------------------")
 console.log(tweetableQuote)
 console.log("---------------------------------------------------------")
 
-// console.log("Posting quote to timeline...")
-// bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
-//   console.log("---------------------------------------------------------")
-//   console.log(data)
-//   console.log("---------------------------------------------------------")
-// })
+console.log("Posting quote to timeline...")
+bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
+  console.log("---------------------------------------------------------")
+  console.log(data)
+  console.log("---------------------------------------------------------")
+})
