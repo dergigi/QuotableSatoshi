@@ -1,0 +1,22 @@
+{
+  "name": "quotablesatoshi",
+  "version": "0.0.1",
+  "description": "Twitter bot posting quotes by Satoshi Nakamoto",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "twitter",
+    "bot",
+    "quote",
+    "bitcoin"
+  ],
+  "author": "dergigi",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "twit": "^2.2.11"
+  }
+}
