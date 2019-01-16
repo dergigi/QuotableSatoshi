@@ -39,11 +39,11 @@ Inspired by [@NakamotoQuotes](https://twitter.com/NakamotoQuotes). Thanks to [Pi
 * [The Complete Satoshi](https://satoshi.nakamotoinstitute.org/) also by the Satoshi Nakamoto Institute
 * [The Book of Satoshi](https://www.bookofsatoshi.com/) by Phil Champagne
 
---
+---
 
 Made with ❤️ by [@dergigi](https://github.com/dergigi/). Happy about any contributions. If you can't contribute but have some satoshis to spare, feel free to [throw a taco](https://tippin.me/@dergigi) in my general direction! [🌮⚡️](https://tippin.me/@dergigi)
 
 
---
+---
 
 [![Follow @QuotableSatoshi](https://img.shields.io/twitter/follow/QuotableSatoshi.svg?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=QuotableSatoshi)
