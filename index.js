@@ -1,1 +1,3 @@
-require('./src/bot')
+'use strict';
+
+require('./src/bot');
