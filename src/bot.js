@@ -1,9 +1,8 @@
 const Twit = require('twit')
 const config = require('./config')
+const quotes = require('./quotes.json')
 
 const bot = new Twit(config)
-
-var quotes = require('./quotes.json')
 
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
 var sanitizedQuote = quote.text.replace(/  /g, " ")
