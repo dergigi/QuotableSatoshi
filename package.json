@@ -15,7 +15,7 @@
     "bitcoin"
   ],
   "author": "dergigi",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^6.2.0",
     "goodparts": "^1.2.1",
