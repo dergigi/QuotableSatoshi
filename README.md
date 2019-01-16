@@ -32,7 +32,7 @@ For now, all the bot does is take a quote at random from the [NakamotoInstitute 
 
 Inspired by [@NakamotoQuotes](https://twitter.com/NakamotoQuotes). Thanks to [Pierre Rochard](https://twitter.com/pierre_rochard) and [Michael Goldstein](https://twitter.com/bitstein) for founding the Satoshi Nakamoto Institute and creating [The Quotable Satoshi](https://satoshi.nakamotoinstitute.org/quotes/). Special thanks to [Jordan Tuwiner](https://www.buybitcoinworldwide.com/) for indexing quotations.
 
-### Further Reading
+## Further Reading
 
 * [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf) by Satoshi Nakamoto
 * [The Quotable Satoshi](https://satoshi.nakamotoinstitute.org/quotes/) indexed by the Satoshi Nakamoto Institute
