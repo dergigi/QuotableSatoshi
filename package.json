@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node_modules/.bin/goodparts index.js src/"
   },
   "keywords": [
     "twitter",
@@ -17,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.2.0",
+    "goodparts": "^1.2.1",
     "twit": "^2.2.11"
   }
 }
