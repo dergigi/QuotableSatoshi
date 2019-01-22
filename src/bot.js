@@ -4,16 +4,32 @@ const quotes = require('./quotes.json')
 
 const bot = new Twit(config)
 
+// Pick a random quote
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
+
+// Sanitze quote (remove double spaces)
 var sanitizedQuote = sanitizeQuote(quote)
+
+// Reduce length of quote to fit twitter
 var tweetableQuote = shortenQuote(sanitizedQuote)
 
+// Post quote to twitter
 postQuote(tweetableQuote)
 
+/**
+ * Get rid of Satoshi's double spaces since they use up valuable
+ * textblock space.
+ * @param {string} quote - The quote uttered by Satoshi.
+*/
 function sanitizeQuote(quote) {
   return quote.text.replace(/  /g, " ")
 }
 
+/**
+ * Reduces quote length by stripping away sentences until it fits
+ * the character limit defined in the config.
+ * @param {string} quote - The quote uttered by Satoshi.
+ */
 function shortenQuote(quote) {
   var sentences = quote.match( /[^\.!\?]+[\.!\?]+/g )
   var i = sentences.length
@@ -26,6 +42,10 @@ function shortenQuote(quote) {
   return shortenedQuote
 }
 
+/**
+ * Post quote to Twitter.
+ * @param {string} quote - The quote uttered by Satoshi.
+*/
 function postQuote(quote) {
   if (config.post_to_twitter) {
     console.log("Posting quote to timeline...")
