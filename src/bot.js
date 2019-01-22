@@ -8,11 +8,6 @@ var quote = quotes[Math.floor(Math.random()*quotes.length)]
 var sanitizedQuote = sanitizeQuote(quote)
 var tweetableQuote = sanitizedQuote
 
-console.log("I just picked a nice quote which would make a good tweet:")
-console.log("---------------------------------------------------------")
-console.log(quote)
-console.log("---------------------------------------------------------")
-
 if (sanitizedQuote.length > 280) {
   tweetableQuote = shortenQuote(sanitizedQuote)
 }
@@ -20,13 +15,10 @@ if (sanitizedQuote.length > 280) {
 if (config.post_to_twitter) {
   console.log("Posting quote to timeline...")
   bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
-    console.log("---------------------------------------------------------")
     console.log(data)
-    console.log("---------------------------------------------------------")
   })
 } else {
   console.log(tweetableQuote)
-  console.log("---------------------------------------------------------")
   console.log("Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.")
 }
 
