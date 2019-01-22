@@ -19,6 +19,7 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "goodparts": "^1.2.1",
+    "mocha": "^5.2.0",
     "twit": "^2.2.11"
   }
 }
