@@ -31,14 +31,29 @@ function sanitizeQuote(quote) {
  * @param {string} quote - The quote uttered by Satoshi.
  */
 function shortenQuote(quote) {
-  var sentences = quote.match( /[^\.!\?]+[\.!\?]+/g )
-  var i = sentences.length
-  while (i--) {
-      if (sentences.join("").length > config.character_limit) { // Too long to tweet
-        sentences.splice(i, 1) // Remove last sentence
-      }
+  if (quote.length < config.character_limit) {
+    return quote
   }
-  shortenedQuote = sentences.join("")
+
+  // Try to remove sentences
+  var shortenedQuote = quote
+  var sentences = quote.match(/[^\.!\?]+[\.!\?]+/g)
+  if (sentences) {
+    var i = sentences.length
+    while (i--) {
+        if (sentences.join("").length > config.character_limit) { // Too long to tweet
+          sentences.splice(i, 1) // Remove last sentence
+        }
+    }
+    shortenedQuote = sentences.join("")
+  }
+
+  // Shortening might have failed, e.g. if the first sentence is really long
+  // or no sentences were detected
+  if (shortenedQuote.length > config.character_limit || shortenedQuote === "") {
+    return quote.substring(0, config.character_limit - 3) + "..."
+  }
+
   return shortenedQuote
 }
 
@@ -59,3 +74,4 @@ function postQuote(quote) {
 }
 
 module.exports.shortenQuote = shortenQuote;
+module.exports.quotes = quotes;
