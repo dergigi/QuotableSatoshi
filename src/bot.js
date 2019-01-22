@@ -5,7 +5,7 @@ const quotes = require('./quotes.json')
 const bot = new Twit(config)
 
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
-var sanitizedQuote = quote.text.replace(/  /g, " ")
+var sanitizedQuote = sanitizeQuote(quote)
 var tweetableQuote = sanitizedQuote
 
 console.log("I just picked a nice quote which would make a good tweet:")
@@ -30,8 +30,11 @@ if (config.post_to_twitter) {
   console.log("Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.")
 }
 
+function sanitizeQuote(quote) {
+  return quote.text.replace(/  /g, " ")
+}
+
 function shortenQuote(quote) {
-  console.log("Quote is too long. Trying to reduce length by removing the last sentence or two...")
   var sentences = quote.match( /[^\.!\?]+[\.!\?]+/g )
   var i = sentences.length
   while (i--) {
