@@ -4,35 +4,74 @@ const quotes = require('./quotes.json')
 
 const bot = new Twit(config)
 
+// Pick a random quote
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
-var sanitizedQuote = quote.text.replace(/  /g, " ")
-var tweetableQuote = sanitizedQuote
 
-console.log("I just picked a nice quote which would make a good tweet:")
-console.log("---------------------------------------------------------")
-console.log(quote)
-console.log("---------------------------------------------------------")
+// Sanitze quote (remove double spaces)
+var sanitizedQuote = sanitizeQuote(quote)
 
-if (sanitizedQuote.length > 280) {
-  console.log("Quote is too long. Trying to reduce length by removing the last sentence or two...")
-  var sentences = sanitizedQuote.match( /[^\.!\?]+[\.!\?]+/g )
-  var i = sentences.length
-  while (i--) {
-      if (sentences.join("").length > 280) { // Too long to tweet
-        sentences.splice(i, 1) // Remove last sentence
-      }
-  }
-  tweetableQuote = sentences.join("")
-  console.log("Reduced quote length from " + quote.text.length + " to " + tweetableQuote.length)
+// Reduce length of quote to fit twitter
+var tweetableQuote = shortenQuote(sanitizedQuote)
+
+// Post quote to twitter
+postQuote(tweetableQuote)
+
+/**
+ * Get rid of Satoshi's double spaces since they use up valuable
+ * textblock space.
+ * @param {string} quote - The quote uttered by Satoshi.
+*/
+function sanitizeQuote(quote) {
+  return quote.text.replace(/  /g, " ")
 }
 
-console.log("---------------------------------------------------------")
-console.log(tweetableQuote)
-console.log("---------------------------------------------------------")
+/**
+ * Reduces quote length by stripping away sentences until it fits
+ * the character limit defined in the config.
+ * @param {string} quote - The quote uttered by Satoshi.
+ */
+function shortenQuote(quote) {
+  if (quote.length < config.character_limit) {
+    return quote
+  }
 
-console.log("Posting quote to timeline...")
-bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
-  console.log("---------------------------------------------------------")
-  console.log(data)
-  console.log("---------------------------------------------------------")
-})
+  // Try to remove sentences
+  var shortenedQuote = quote
+  var sentences = quote.match(/[^\.!\?]+[\.!\?]+/g)
+  if (sentences) {
+    var i = sentences.length
+    while (i--) {
+        if (sentences.join("").length > config.character_limit) { // Too long to tweet
+          sentences.splice(i, 1) // Remove last sentence
+        }
+    }
+    shortenedQuote = sentences.join("")
+  }
+
+  // Shortening might have failed, e.g. if the first sentence is really long
+  // or no sentences were detected
+  if (shortenedQuote.length > config.character_limit || shortenedQuote === "") {
+    return quote.substring(0, config.character_limit - 3) + "..."
+  }
+
+  return shortenedQuote
+}
+
+/**
+ * Post quote to Twitter.
+ * @param {string} quote - The quote uttered by Satoshi.
+*/
+function postQuote(quote) {
+  if (config.post_to_twitter) {
+    console.log("Posting quote to timeline...")
+    bot.post('statuses/update', { status: quote }, function(err, data, response) {
+      console.log(data)
+    })
+  } else {
+    console.log(quote)
+    console.log("(Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.)")
+  }
+}
+
+module.exports.shortenQuote = shortenQuote;
+module.exports.quotes = quotes;
