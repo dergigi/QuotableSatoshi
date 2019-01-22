@@ -6,21 +6,9 @@ const bot = new Twit(config)
 
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
 var sanitizedQuote = sanitizeQuote(quote)
-var tweetableQuote = sanitizedQuote
+var tweetableQuote = shortenQuote(sanitizedQuote)
 
-if (sanitizedQuote.length > 280) {
-  tweetableQuote = shortenQuote(sanitizedQuote)
-}
-
-if (config.post_to_twitter) {
-  console.log("Posting quote to timeline...")
-  bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
-    console.log(data)
-  })
-} else {
-  console.log(tweetableQuote)
-  console.log("Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.")
-}
+postQuote(tweetableQuote)
 
 function sanitizeQuote(quote) {
   return quote.text.replace(/  /g, " ")
@@ -36,6 +24,18 @@ function shortenQuote(quote) {
   }
   shortenedQuote = sentences.join("")
   return shortenedQuote
+}
+
+function postQuote(quote) {
+  if (config.post_to_twitter) {
+    console.log("Posting quote to timeline...")
+    bot.post('statuses/update', { status: quote }, function(err, data, response) {
+      console.log(data)
+    })
+  } else {
+    console.log(quote)
+    console.log("(Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.)")
+  }
 }
 
 module.exports.shortenQuote = shortenQuote;
