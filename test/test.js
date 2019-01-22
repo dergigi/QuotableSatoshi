@@ -5,10 +5,15 @@ const QUOTE_LONG = "The proof-of-work chain is a solution to the Byzantine Gener
 
 const QUOTE_LONG_SHORTENED = "The proof-of-work chain is a solution to the Byzantine Generals' Problem. I'll try to rephrase it in that context."
 
+const QUOTE_SHORT = "When there are multiple double-spent versions of the same transaction, one and only one will become valid."
+
 describe('quotableSatoshi', function() {
   describe('#shortenQuote()', function() {
     it('should shorten a quote when it is too long', function() {
       assert.equal(quotableSatoshi.shortenQuote(QUOTE_LONG), QUOTE_LONG_SHORTENED);
+    });
+    it('should do nothing if a quote is tweetable', function() {
+      assert.equal(quotableSatoshi.shortenQuote(QUOTE_SHORT), QUOTE_SHORT);
     });
   });
 });
