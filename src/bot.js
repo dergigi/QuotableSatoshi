@@ -14,25 +14,33 @@ console.log(quote)
 console.log("---------------------------------------------------------")
 
 if (sanitizedQuote.length > 280) {
+  tweetableQuote = shortenQuote(sanitizedQuote)
+}
+
+if (config.post_to_twitter) {
+  console.log("Posting quote to timeline...")
+  bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
+    console.log("---------------------------------------------------------")
+    console.log(data)
+    console.log("---------------------------------------------------------")
+  })
+} else {
+  console.log(tweetableQuote)
+  console.log("---------------------------------------------------------")
+  console.log("Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.")
+}
+
+function shortenQuote(quote) {
   console.log("Quote is too long. Trying to reduce length by removing the last sentence or two...")
-  var sentences = sanitizedQuote.match( /[^\.!\?]+[\.!\?]+/g )
+  var sentences = quote.match( /[^\.!\?]+[\.!\?]+/g )
   var i = sentences.length
   while (i--) {
-      if (sentences.join("").length > 280) { // Too long to tweet
+      if (sentences.join("").length > config.character_limit) { // Too long to tweet
         sentences.splice(i, 1) // Remove last sentence
       }
   }
-  tweetableQuote = sentences.join("")
-  console.log("Reduced quote length from " + quote.text.length + " to " + tweetableQuote.length)
+  shortenedQuote = sentences.join("")
+  return shortenedQuote
 }
 
-console.log("---------------------------------------------------------")
-console.log(tweetableQuote)
-console.log("---------------------------------------------------------")
-
-console.log("Posting quote to timeline...")
-bot.post('statuses/update', { status: tweetableQuote }, function(err, data, response) {
-  console.log("---------------------------------------------------------")
-  console.log(data)
-  console.log("---------------------------------------------------------")
-})
+module.exports.shortenQuote = shortenQuote;
