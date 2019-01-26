@@ -77,6 +77,18 @@ function getRepliesAskingForSource(callback) {
   bot.get('search/tweets', { q: 'to:@QuotableSatoshi source', count: 100 }, callback)
 }
 
+function getParentTweet(tweetid, callback) {
+  bot.get('statuses/show/:id', { id: tweetid }, function(err, data, response) {
+    if (err) {
+      callback(err, null, response)
+    } else {
+      var parentId = data.in_reply_to_status_id_str
+      callback(err, parentId, response)
+    }
+  })
+}
+
 module.exports.shortenQuote = shortenQuote;
 module.exports.quotes = quotes;
 module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
+module.exports.getParentTweet = getParentTweet;
