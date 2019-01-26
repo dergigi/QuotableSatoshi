@@ -73,5 +73,10 @@ function postQuote(quote) {
   }
 }
 
+function getRepliesAskingForSource(callback) {
+  bot.get('search/tweets', { q: 'to:@QuotableSatoshi source', count: 100 }, callback)
+}
+
 module.exports.shortenQuote = shortenQuote;
 module.exports.quotes = quotes;
+module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
