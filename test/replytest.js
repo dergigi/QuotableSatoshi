@@ -11,6 +11,9 @@ const QUOTE_BITCOINTALK_SOURCE = 'https://satoshi.nakamotoinstitute.org/posts/bi
 const QUOTE_WHITEPAPER = 'A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution.'
 const QUOTE_WHITEPAPER_SOURCE = 'https://bitcoin.org/bitcoin.pdf'
 
+const QUOTE_EMAIL = 'It might make sense just to get some in case it catches on. If enough people think the same way, that becomes a self fulfilling prophecy.'
+const QUOTE_EMAIL_SOURCE = 'https://satoshi.nakamotoinstitute.org/emails/cryptography/17'
+
 describe('quotableSatoshi', function() {
   describe('#getParentTweet()', function() {
     it('should get the correct root tweet id of a reply', function() {
@@ -32,11 +35,13 @@ describe('quotableSatoshi', function() {
       var source = bot.getSourceForQuote(QUOTE_BITCOINTALK);
       assert.equal(source, QUOTE_BITCOINTALK_SOURCE);
     });
-  });
-  describe('#getSourceForQuote()', function() {
     it('should look up the source of a whitepaper quote correctly', function() {
       var source = bot.getSourceForQuote(QUOTE_WHITEPAPER);
       assert.equal(source, QUOTE_WHITEPAPER_SOURCE);
+    });
+    it('should look up the source of a email quote correctly', function() {
+      var source = bot.getSourceForQuote(QUOTE_EMAIL);
+      assert.equal(source, QUOTE_EMAIL_SOURCE);
     });
   });
 });
