@@ -4,6 +4,10 @@ const quotes = require('./quotes.json')
 
 const bot = new Twit(config)
 
+const WHITEPAPER_URL = 'https://bitcoin.org/bitcoin.pdf'
+const BITCOINTALK_URL = 'https://satoshi.nakamotoinstitute.org/posts/bitcointalk/'
+const EMAIL_URL = 'https://satoshi.nakamotoinstitute.org/emails/cryptography/'
+
 // Pick a random quote
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
 
@@ -77,13 +81,60 @@ function getRepliesAskingForSource(callback) {
   bot.get('search/tweets', { q: 'to:@QuotableSatoshi source', count: 100 }, callback)
 }
 
+function isAwaitingReply(tweet, callback) {
+  var since_id = tweet.id_str
+  bot.get('search/tweets', { q: 'from:@QuotableSatoshi to:' + tweet.user.screen_name, since_id: since_id, count: 10 }, callback)
+}
+
+function replyWithSource() {
+  // 1. Get list of tweets asking for source
+  // getRepliesAskingForSource(function(err, data, response) {
+  //   if (err) {
+  //     console.log(err)
+  //   } else {
+  //     data.statuses.forEach(s => {
+  // 2. Get parent tweet for every tweet asking for source
+  //       console.log(s.text)
+  //       console.log(s.user.screen_name)
+  //       console.log('\n')
+  //     })
+  //   }
+  // })
+  // 3. Get quote from parent tweet
+
+  // 4. Look up quote source
+  // 5. Reply to tweet with quote source
+}
+
+function getSourceForQuote(quote, callback) {
+  var PATTERN = new RegExp(quote);
+  var matched_quotes = quotes.filter(function (q) { return PATTERN.test(q.text); });
+  if (!matched_quotes || matched_quotes.length > 1) {
+    return null;
+  }
+
+  var source = matched_quotes[0]
+  switch(source.medium) {
+    case "whitepaper":
+      return WHITEPAPER_URL;
+    case "email":
+      return EMAIL_URL + source.email_id;
+    case "bitcointalk":
+      return BITCOINTALK_URL + source.post_id;
+    default:
+      return null;
+  }
+}
+
 function getParentTweet(tweetid, callback) {
   bot.get('statuses/show/:id', { id: tweetid }, function(err, data, response) {
     if (err) {
       callback(err, null, response)
     } else {
-      var parentId = data.in_reply_to_status_id_str
-      callback(err, parentId, response)
+      var parentId = data.in_reply_to_status_id_str;
+      if (parentId) {
+        getParentTweet(parentId, callback);
+      }
     }
   })
 }
@@ -91,4 +142,7 @@ function getParentTweet(tweetid, callback) {
 module.exports.shortenQuote = shortenQuote;
 module.exports.quotes = quotes;
 module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
+module.exports.replyWithSource = replyWithSource;
 module.exports.getParentTweet = getParentTweet;
+module.exports.isAwaitingReply = isAwaitingReply;
+module.exports.getSourceForQuote = getSourceForQuote;
