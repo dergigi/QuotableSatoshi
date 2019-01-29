@@ -14,6 +14,9 @@ const QUOTE_WHITEPAPER_SOURCE = 'https://bitcoin.org/bitcoin.pdf'
 const QUOTE_EMAIL = 'It might make sense just to get some in case it catches on. If enough people think the same way, that becomes a self fulfilling prophecy.'
 const QUOTE_EMAIL_SOURCE = 'https://satoshi.nakamotoinstitute.org/emails/cryptography/17'
 
+const QUOTE_P2PFOUNDATION = 'To Sepp\'s question, indeed there is nobody to act as central bank or federal reserve to adjust the money supply as the population of users grows.'
+const QUOTE_P2PFOUNDATION_SOURCE = 'https://satoshi.nakamotoinstitute.org/posts/p2pfoundation/3'
+
 describe('quotableSatoshi', function() {
   describe('#getParentTweet()', function() {
     it('should get the correct root tweet id of a reply', function() {
@@ -42,6 +45,10 @@ describe('quotableSatoshi', function() {
     it('should look up the source of a email quote correctly', function() {
       var source = bot.getSourceForQuote(QUOTE_EMAIL);
       assert.equal(source, QUOTE_EMAIL_SOURCE);
+    });
+    it('should look up the source of a p2pfoundation quote correctly', function() {
+      var source = bot.getSourceForQuote(QUOTE_P2PFOUNDATION);
+      assert.equal(source, QUOTE_P2PFOUNDATION_SOURCE);
     });
   });
 });

@@ -7,6 +7,7 @@ const bot = new Twit(config)
 const WHITEPAPER_URL = 'https://bitcoin.org/bitcoin.pdf'
 const BITCOINTALK_URL = 'https://satoshi.nakamotoinstitute.org/posts/bitcointalk/'
 const EMAIL_URL = 'https://satoshi.nakamotoinstitute.org/emails/cryptography/'
+const P2PFOUNDATION_URL = 'https://satoshi.nakamotoinstitute.org/posts/p2pfoundation/'
 
 // Pick a random quote
 var quote = quotes[Math.floor(Math.random()*quotes.length)]
@@ -121,6 +122,8 @@ function getSourceForQuote(quote, callback) {
       return EMAIL_URL + source.email_id;
     case "bitcointalk":
       return BITCOINTALK_URL + source.post_id;
+    case "p2pfoundation":
+      return P2PFOUNDATION_URL + source.post_id;
     default:
       return null;
   }
