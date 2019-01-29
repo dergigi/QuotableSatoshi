@@ -8,6 +8,9 @@ const TWEET_ASKING_FOR_SOURCE = require('./assets/tweet_asking_for_source.json')
 const QUOTE_BITCOINTALK = 'At equilibrium size, many nodes will be server farms with one or two network nodes that feed the rest of the farm over a LAN.'
 const QUOTE_BITCOINTALK_SOURCE = 'https://satoshi.nakamotoinstitute.org/posts/bitcointalk/188'
 
+const QUOTE_WHITEPAPER = 'A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution.'
+const QUOTE_WHITEPAPER_SOURCE = 'https://bitcoin.org/bitcoin.pdf'
+
 describe('quotableSatoshi', function() {
   describe('#getParentTweet()', function() {
     it('should get the correct root tweet id of a reply', function() {
@@ -25,10 +28,15 @@ describe('quotableSatoshi', function() {
     });
   });
   describe('#getSourceForQuote()', function() {
-    it('should look up the source of a quote correctly', function() {
+    it('should look up the source of a bitcointalk quote correctly', function() {
       var source = bot.getSourceForQuote(QUOTE_BITCOINTALK);
-      console.log(source)
       assert.equal(source, QUOTE_BITCOINTALK_SOURCE);
+    });
+  });
+  describe('#getSourceForQuote()', function() {
+    it('should look up the source of a whitepaper quote correctly', function() {
+      var source = bot.getSourceForQuote(QUOTE_WHITEPAPER);
+      assert.equal(source, QUOTE_WHITEPAPER_SOURCE);
     });
   });
 });
