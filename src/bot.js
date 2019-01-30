@@ -129,8 +129,12 @@ function replyWithSource(tweet, callback) {
     console.log(reply)
 
     if (config.post_to_twitter) {
-      bot.post('statuses/update', { status: quote_source, in_reply_to_status_id: tweet.id_str }, function(err, data, response) {
-        console.log(data)
+      bot.post('statuses/update', { status: reply, in_reply_to_status_id: tweet.id_str }, function(err, data, response) {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(data)
+        }
       })
     } else {
       console.log("(Not replying to user. ENV var POST_TO_TWITTER has to be set to true.)")
