@@ -1,3 +1,4 @@
 'use strict';
 
-require('./src/bot');
+var bot = require('./src/bot');
+bot.postRandomQuote();

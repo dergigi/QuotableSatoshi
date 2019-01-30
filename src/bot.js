@@ -9,18 +9,20 @@ const BITCOINTALK_URL = 'https://satoshi.nakamotoinstitute.org/posts/bitcointalk
 const EMAIL_URL = 'https://satoshi.nakamotoinstitute.org/emails/cryptography/'
 const P2PFOUNDATION_URL = 'https://satoshi.nakamotoinstitute.org/posts/p2pfoundation/'
 
-// Pick a random quote
-var quote = quotes[Math.floor(Math.random()*quotes.length)]
 
-// Sanitze quote (remove double spaces)
-var sanitizedQuote = sanitizeQuote(quote)
+function postRandomQuote() {
+  // Pick a random quote
+  var quote = quotes[Math.floor(Math.random()*quotes.length)]
 
-// Reduce length of quote to fit twitter
-var tweetableQuote = shortenQuote(sanitizedQuote)
+  // Sanitze quote (remove double spaces)
+  var sanitizedQuote = sanitizeQuote(quote)
 
-// Post quote to twitter
-postQuote(tweetableQuote)
-replyAllWithSource()
+  // Reduce length of quote to fit twitter
+  var tweetableQuote = shortenQuote(sanitizedQuote)
+
+  // Post quote to twitter
+  postQuote(tweetableQuote)
+}
 
 /**
  * Get rid of Satoshi's double spaces since they use up valuable
@@ -89,18 +91,14 @@ function getRepliesByBot(tweet, callback) {
 }
 
 function replyAllWithSource() {
-  // 1. Get list of tweets asking for source
   getRepliesAskingForSource(function(err, data, response) {
     if (err) {
       console.log(err)
     } else {
       data.statuses.forEach(s => {
-        // 2. Get parent tweet for every tweet asking for source
         getRepliesByBot(s, function(err, data, response) {
           if (data.statuses.length == 0) {
-            replyWithSource(s, function(err, data, response) {
-              // TODO catch error
-            });
+            replyWithSource(s);
           }
         });
       })
@@ -108,7 +106,7 @@ function replyAllWithSource() {
   })
 }
 
-function replyWithSource(tweet, callback) {
+function replyWithSource(tweet) {
   getParentTweet(tweet, function(err, data, response) {
     console.log("--")
     console.log(tweet.text)
@@ -195,6 +193,8 @@ module.exports.shortenQuote = shortenQuote;
 module.exports.quotes = quotes;
 module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
 module.exports.replyWithSource = replyWithSource;
+module.exports.replyAllWithSource = replyAllWithSource;
 module.exports.getParentTweet = getParentTweet;
 module.exports.getRepliesByBot = getRepliesByBot;
 module.exports.getQuoteMetadata = getQuoteMetadata;
+module.exports.postRandomQuote = postRandomQuote;
