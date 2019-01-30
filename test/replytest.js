@@ -26,9 +26,9 @@ describe('quotableSatoshi', function() {
       })
     });
   });
-  describe('#isAwaitingReply()', function() {
+  describe('#getRepliesByBot()', function() {
     it('should detect if tweet asking for source was replied to', function() {
-      bot.isAwaitingReply(TWEET_ASKING_FOR_SOURCE, function(err, data, response) {
+      bot.getRepliesByBot(TWEET_ASKING_FOR_SOURCE, function(err, data, response) {
         assert.equal(data.statuses.length, 0, 'statuses should be empty')
       });
     });

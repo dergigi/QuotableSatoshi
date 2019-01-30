@@ -20,6 +20,7 @@ var tweetableQuote = shortenQuote(sanitizedQuote)
 
 // Post quote to twitter
 postQuote(tweetableQuote)
+replyAllWithSource()
 
 /**
  * Get rid of Satoshi's double spaces since they use up valuable
@@ -82,7 +83,7 @@ function getRepliesAskingForSource(callback) {
   bot.get('search/tweets', { q: 'to:@QuotableSatoshi source', count: 100 }, callback)
 }
 
-function isAwaitingReply(tweet, callback) {
+function getRepliesByBot(tweet, callback) {
   var since_id = tweet.id_str
   bot.get('search/tweets', { q: 'from:@QuotableSatoshi to:' + tweet.user.screen_name, since_id: since_id, count: 10 }, callback)
 }
@@ -94,9 +95,14 @@ function replyAllWithSource() {
       console.log(err)
     } else {
       data.statuses.forEach(s => {
-  // 2. Get parent tweet for every tweet asking for source
-        console.log(s.text)
-        console.log(s.user.screen_name)
+        // 2. Get parent tweet for every tweet asking for source
+        getRepliesByBot(s, function(err, data, response) {
+          if (data.statuses.length == 0) {
+            replyWithSource(s, function(err, data, response) {
+              // asdf
+            });
+          }
+        });
       })
     }
   })
@@ -107,26 +113,46 @@ function replyAllWithSource() {
 }
 
 function replyWithSource(tweet, callback) {
-  console.log("Getting parent tweet for " + tweet.text)
   getParentTweet(tweet, function(err, data, response) {
-    console.log("Got parent tweet: ")
-    console.log(data)
-    var source = getQuoteMetadata(data.text)
-
+    console.log("--")
+    console.log(tweet.text)
+    var metadata = getQuoteMetadata(data.text.substring(0, 70)) // twitter API might return truncated text
     var reply = '@'
     reply += tweet.user.screen_name
     reply += ' Satoshi wrote this on '
-    // tweet.user.screen_name
+    reply += metadata.date
+    reply += ' '
+    reply += mediumPhrase(metadata.medium)
+    reply += '. You can find the full quote, context, and more information here: '
+    reply += metadata.source
+
+    console.log(reply)
 
     if (config.post_to_twitter) {
       bot.post('statuses/update', { status: quote_source, in_reply_to_status_id: tweet.id_str }, function(err, data, response) {
         console.log(data)
       })
     } else {
-      console.log(source)
-      console.log("(Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.)")
+      console.log("(Not replying to user. ENV var POST_TO_TWITTER has to be set to true.)")
     }
   })
+}
+
+function mediumPhrase(medium) {
+  switch(medium) {
+    case "whitepaper":
+      return "in the whitepaper"
+    case "email":
+      return "in an email to the cryptography mailing list"
+    case "bitcointalk":
+      return "in a BitcoinTalk thread"
+      break;
+    case "p2pfoundation":
+      return "in an email to the P2P Foundation mailing list"
+    default:
+      source = null;
+      break;
+  }
 }
 
 function getQuoteMetadata(quote, callback) {
@@ -170,5 +196,5 @@ module.exports.quotes = quotes;
 module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
 module.exports.replyWithSource = replyWithSource;
 module.exports.getParentTweet = getParentTweet;
-module.exports.isAwaitingReply = isAwaitingReply;
+module.exports.getRepliesByBot = getRepliesByBot;
 module.exports.getQuoteMetadata = getQuoteMetadata;
