@@ -115,7 +115,7 @@ function replyWithSource(tweet) {
     reply += tweet.user.screen_name
     reply += ' Satoshi wrote this on '
     reply += metadata.date
-    reply += ' '
+    reply += ', '
     reply += mediumPhrase(metadata.medium)
     reply += '. You can find the full quote, context, and more information here: '
     reply += metadata.source
