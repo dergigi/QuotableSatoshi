@@ -99,17 +99,13 @@ function replyAllWithSource() {
         getRepliesByBot(s, function(err, data, response) {
           if (data.statuses.length == 0) {
             replyWithSource(s, function(err, data, response) {
-              // asdf
+              // TODO catch error
             });
           }
         });
       })
     }
   })
-  // 3. Get quote from parent tweet
-
-  // 4. Look up quote source
-  // 5. Reply to tweet with quote source
 }
 
 function replyWithSource(tweet, callback) {
