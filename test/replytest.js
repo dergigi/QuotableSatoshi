@@ -55,14 +55,6 @@ describe('quotableSatoshi', function() {
       assert.equal(metadata.date, "February 18, 2009");
     });
   });
-  describe('#replyWithSource()', function() {
-    it('should reply to a tweet asking for source', function() {
-      bot.replyWithSource(TWEET_ASKING_FOR_SOURCE, function(err, data, response) {
-        console.log(err)
-        console.log(data)
-      });
-    });
-  });
 });
 
 function onSearchComplete(err, data, response) {
