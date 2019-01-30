@@ -1,6 +1,6 @@
 {
   "name": "quotablesatoshi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Twitter bot posting quotes by Satoshi Nakamoto",
   "main": "index.js",
   "scripts": {
