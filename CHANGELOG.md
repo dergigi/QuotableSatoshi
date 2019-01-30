@@ -2,6 +2,10 @@
 
 Changelog for the [@QuotableSatoshi](https://twitter.com/QuotableSatoshi) twitter bot.
 
+### Version 0.0.2
+
+* Add source lookup functionality
+
 ### Version 0.0.1
 
 * Add post functionality

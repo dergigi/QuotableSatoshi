@@ -14,7 +14,7 @@ Feel free to [follow the bot](https://twitter.com/intent/follow?screen_name=Quot
 
 ## Features
 
-Quotes are posted as single tweets every 12 hours. The bot will not post anything else. Some quotes are too long to fit a single tweet. If that is the case, sentences will be omitted until the quote is below 280 characters. The following quote
+Quotes are posted as single tweets every 12 hours. Further, the bot will reply to users asking for "source". The bot will not post anything else. Some quotes are too long to fit a single tweet. If that is the case, sentences will be omitted until the quote is below 280 characters. The following quote
 
 > What is needed is an electronic payment system based on cryptographic proof instead of trust, allowing any two willing parties to transact directly with each other without the need for a trusted third party. Transactions that are computationally impractical to reverse would protect sellers from fraud, and routine escrow mechanisms could easily be implemented to protect buyers.',
 
@@ -22,11 +22,15 @@ will be shortened to
 
 > What is needed is an electronic payment system based on cryptographic proof instead of trust, allowing any two willing parties to transact directly with each other without the need for a trusted third party.
 
-In the future, long quotes might be posted as threads. Another cool feature would be to interact with the bot to get further information about the quote like source, context, and date. Since twitter does not allow duplicate tweets a future version of the bot will have to include retweet functionality.
-
-For now, all the bot does is take a quote at random from the [NakamotoInstitute repository](https://github.com/NakamotoInstitute/nakamotoinstitute.org) and post it to twitter. It will look something like this:
+The bot takes a quote at random from the [NakamotoInstitute repository](https://github.com/NakamotoInstitute/nakamotoinstitute.org) and posts it to twitter. It will look something like this:
 
 ![Example tweet](assets/tweet.png)
+
+If a user replies to a queet asking for the source of a quote, the bot will reply to said user with the date of the quote and a link to the source:
+
+![Example reply](assets/reply.png)
+
+The bot replies to any direct reply containing the word `source` which it did not reply to already.
 
 ## Attribution
 
