@@ -87,59 +87,82 @@ function isAwaitingReply(tweet, callback) {
   bot.get('search/tweets', { q: 'from:@QuotableSatoshi to:' + tweet.user.screen_name, since_id: since_id, count: 10 }, callback)
 }
 
-function replyWithSource() {
+function replyAllWithSource() {
   // 1. Get list of tweets asking for source
-  // getRepliesAskingForSource(function(err, data, response) {
-  //   if (err) {
-  //     console.log(err)
-  //   } else {
-  //     data.statuses.forEach(s => {
+  getRepliesAskingForSource(function(err, data, response) {
+    if (err) {
+      console.log(err)
+    } else {
+      data.statuses.forEach(s => {
   // 2. Get parent tweet for every tweet asking for source
-  //       console.log(s.text)
-  //       console.log(s.user.screen_name)
-  //       console.log('\n')
-  //     })
-  //   }
-  // })
+        console.log(s.text)
+        console.log(s.user.screen_name)
+      })
+    }
+  })
   // 3. Get quote from parent tweet
 
   // 4. Look up quote source
   // 5. Reply to tweet with quote source
 }
 
-function getSourceForQuote(quote, callback) {
+function replyWithSource(tweet, callback) {
+  console.log("Getting parent tweet for " + tweet.text)
+  getParentTweet(tweet, function(err, data, response) {
+    console.log("Got parent tweet: ")
+    console.log(data)
+    var source = getQuoteMetadata(data.text)
+
+    var reply = '@'
+    reply += tweet.user.screen_name
+    reply += ' Satoshi wrote this on '
+    // tweet.user.screen_name
+
+    if (config.post_to_twitter) {
+      bot.post('statuses/update', { status: quote_source, in_reply_to_status_id: tweet.id_str }, function(err, data, response) {
+        console.log(data)
+      })
+    } else {
+      console.log(source)
+      console.log("(Not posting quote to timeline. ENV var POST_TO_TWITTER has to be set to true.)")
+    }
+  })
+}
+
+function getQuoteMetadata(quote, callback) {
   var PATTERN = new RegExp(quote);
   var matched_quotes = quotes.filter(function (q) { return PATTERN.test(q.text); });
   if (!matched_quotes || matched_quotes.length > 1) {
     return null;
   }
 
-  var source = matched_quotes[0]
-  switch(source.medium) {
+  var quote_entry = matched_quotes[0]
+  var source = null
+  switch(quote_entry.medium) {
     case "whitepaper":
-      return WHITEPAPER_URL;
+      source = WHITEPAPER_URL;
+      break;
     case "email":
-      return EMAIL_URL + source.email_id;
+      source = EMAIL_URL + quote_entry.email_id;
+      break;
     case "bitcointalk":
-      return BITCOINTALK_URL + source.post_id;
+      source = BITCOINTALK_URL + quote_entry.post_id;
+      break;
     case "p2pfoundation":
-      return P2PFOUNDATION_URL + source.post_id;
+      source = P2PFOUNDATION_URL + quote_entry.post_id;
+      break;
     default:
-      return null;
+      source = null;
+      break;
   }
+
+  quote_entry['source'] = source;
+
+  return quote_entry
 }
 
-function getParentTweet(tweetid, callback) {
-  bot.get('statuses/show/:id', { id: tweetid }, function(err, data, response) {
-    if (err) {
-      callback(err, null, response)
-    } else {
-      var parentId = data.in_reply_to_status_id_str;
-      if (parentId) {
-        getParentTweet(parentId, callback);
-      }
-    }
-  })
+function getParentTweet(tweet, callback) {
+  bot.get('statuses/show/:id', { id: tweet.in_reply_to_status_id_str }, callback)
 }
 
 module.exports.shortenQuote = shortenQuote;
@@ -148,4 +171,4 @@ module.exports.getRepliesAskingForSource = getRepliesAskingForSource;
 module.exports.replyWithSource = replyWithSource;
 module.exports.getParentTweet = getParentTweet;
 module.exports.isAwaitingReply = isAwaitingReply;
-module.exports.getSourceForQuote = getSourceForQuote;
+module.exports.getQuoteMetadata = getQuoteMetadata;

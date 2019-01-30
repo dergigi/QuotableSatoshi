@@ -20,7 +20,7 @@ const QUOTE_P2PFOUNDATION_SOURCE = 'https://satoshi.nakamotoinstitute.org/posts/
 describe('quotableSatoshi', function() {
   describe('#getParentTweet()', function() {
     it('should get the correct root tweet id of a reply', function() {
-      bot.getParentTweet(REPLY_TWEET_ID, function(err, data, response) {
+      bot.getParentTweet(TWEET_ASKING_FOR_SOURCE, function(err, data, response) {
         assert.equal(data.id_str, EXPECTED_ROOT_TWEET_ID, 'tweet id is the expected root tweet id')
         assert.equal(data.user.screen_name, 'dergigi')
       })
@@ -33,22 +33,34 @@ describe('quotableSatoshi', function() {
       });
     });
   });
-  describe('#getSourceForQuote()', function() {
+  describe('#getQuoteMetadata()', function() {
     it('should look up the source of a bitcointalk quote correctly', function() {
-      var source = bot.getSourceForQuote(QUOTE_BITCOINTALK);
-      assert.equal(source, QUOTE_BITCOINTALK_SOURCE);
+      var metadata = bot.getQuoteMetadata(QUOTE_BITCOINTALK);
+      assert.equal(metadata.source, QUOTE_BITCOINTALK_SOURCE);
+      assert.equal(metadata.date, "July 14, 2010");
     });
     it('should look up the source of a whitepaper quote correctly', function() {
-      var source = bot.getSourceForQuote(QUOTE_WHITEPAPER);
-      assert.equal(source, QUOTE_WHITEPAPER_SOURCE);
+      var metadata = bot.getQuoteMetadata(QUOTE_WHITEPAPER);
+      assert.equal(metadata.source, QUOTE_WHITEPAPER_SOURCE);
+      assert.equal(metadata.date, "October 31, 2008");
     });
     it('should look up the source of a email quote correctly', function() {
-      var source = bot.getSourceForQuote(QUOTE_EMAIL);
-      assert.equal(source, QUOTE_EMAIL_SOURCE);
+      var metadata = bot.getQuoteMetadata(QUOTE_EMAIL);
+      assert.equal(metadata.source, QUOTE_EMAIL_SOURCE);
+      assert.equal(metadata.date, "January 17, 2009");
     });
     it('should look up the source of a p2pfoundation quote correctly', function() {
-      var source = bot.getSourceForQuote(QUOTE_P2PFOUNDATION);
-      assert.equal(source, QUOTE_P2PFOUNDATION_SOURCE);
+      var metadata = bot.getQuoteMetadata(QUOTE_P2PFOUNDATION);
+      assert.equal(metadata.source, QUOTE_P2PFOUNDATION_SOURCE);
+      assert.equal(metadata.date, "February 18, 2009");
+    });
+  });
+  describe('#replyWithSource()', function() {
+    it('should reply to a tweet asking for source', function() {
+      bot.replyWithSource(TWEET_ASKING_FOR_SOURCE, function(err, data, response) {
+        console.log(err)
+        console.log(data)
+      });
     });
   });
 });
