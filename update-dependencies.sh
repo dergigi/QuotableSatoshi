@@ -7,6 +7,6 @@ yarn install
 git add .
 git commit -m "build: yarn install"
 
-npm audit fix
+npx yarn-audit-fix
 git add .
-git commit -m "build: npm audit fix"
+git commit -m "build: npx yarn-audit-fix"
