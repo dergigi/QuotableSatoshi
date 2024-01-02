@@ -8,9 +8,15 @@
 
 [![Follow @QuotableSatoshi](https://img.shields.io/twitter/follow/QuotableSatoshi.svg?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=QuotableSatoshi)
 
-A simple twitter bot to disseminate the writings of Satoshi Nakamoto to a wider audience. Quotes are taken from [The Quotable Satoshi](https://satoshi.nakamotoinstitute.org/quotes/), curated and indexed by the [Satoshi Nakamoto Institute](https://nakamotoinstitute.org/).
+A simple bot to disseminate the writings of Satoshi Nakamoto to a wider audience. Quotes are taken from [The Quotable Satoshi](https://satoshi.nakamotoinstitute.org/quotes/), curated and indexed by the [Satoshi Nakamoto Institute](https://nakamotoinstitute.org/).
 
-Feel free to [follow the bot](https://twitter.com/intent/follow?screen_name=QuotableSatoshi) on twitter. 
+~~Feel free to [follow the bot](https://twitter.com/intent/follow?screen_name=QuotableSatoshi) on twitter.~~
+
+Follow [@QuotableSatoshi](https://njump.me/npub1satsv3728d65nenvkmzthrge0aduj8088dvwkxk70rydm407cl4s87sfhu) on nostr:
+
+```
+npub1satsv3728d65nenvkmzthrge0aduj8088dvwkxk70rydm407cl4s87sfhu
+```
 
 ## Features
 
@@ -45,6 +51,6 @@ Inspired by [@NakamotoQuotes](https://twitter.com/NakamotoQuotes). Thanks to [Pi
 
 ---
 
-Made with ❤️ by [@dergigi](https://github.com/dergigi/). Happy about any contributions. If you can't contribute but have some satoshis to spare, feel free to [throw a taco](https://tippin.me/@dergigi) in my general direction! [🌮⚡️](https://tippin.me/@dergigi)
+Made with 🧡 by [@dergigi](https://github.com/dergigi/). Happy about any contributions. If you can't contribute but have some satoshis to spare, feel free to [send zaps](https://njump.me/dergigi.com)!
 
 [![Follow @QuotableSatoshi](https://img.shields.io/twitter/follow/QuotableSatoshi.svg?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=QuotableSatoshi)
